@@ -62,6 +62,7 @@ class _LoginFormState extends State<LoginForm> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
+
                   context
                       .read<LoginCubit>()
                       .verifyLogin(_user.userName, _user.userPassword);

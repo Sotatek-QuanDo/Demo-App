@@ -1,3 +1,4 @@
+import 'package:demo_application/UI/screen/home_screen.dart';
 import 'package:demo_application/UI/screen/login_screen.dart';
 import 'package:demo_application/logic/login_cubit.dart';
 import 'package:demo_application/route/route_management.dart';
@@ -43,7 +44,13 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
-        home: const LoginScreen(title: 'セキュリティーコード'),
+        home: BlocBuilder<LoginCubit, LoginState>(builder: (context, state) {
+          if (state is LoginVerified) {
+            return const HomeScreen();
+          } else {
+            return const LoginScreen(title: 'セキュリティーコード');
+          }
+        }),
       ),
     );
   }

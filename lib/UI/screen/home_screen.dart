@@ -1,6 +1,7 @@
 import 'package:demo_application/UI/widget/bottom_navigator_bar.dart';
 import 'package:demo_application/UI/widget/top_navigator_bar.dart';
 import 'package:demo_application/logic/job_cubit.dart';
+import 'package:demo_application/logic/login_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,6 +23,18 @@ class _HomeScreenState extends State<HomeScreen> {
           '导航栏',
           style: Theme.of(context).textTheme.titleLarge,
         ),
+        actions: [
+          BlocListener<LoginCubit, LoginState>(
+            listener: (context, state) {
+              if (state is LoggedOut) {
+                Navigator.of(context).pushReplacementNamed('/login');
+              }
+            },
+            child: IconButton(
+                onPressed: () => context.read<LoginCubit>().logOut(),
+                icon: const Icon(Icons.logout)),
+          ),
+        ],
       ),
       body: BlocProvider<JobCubit>(
         create: (context) => JobCubit(),

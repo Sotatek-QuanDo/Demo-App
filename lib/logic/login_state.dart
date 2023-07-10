@@ -9,3 +9,5 @@ class LoginVerifying extends LoginState {}
 class LoginVerified extends LoginState {}
 
 class LoginFailed extends LoginState {}
+
+class LoggedOut extends LoginState {}
