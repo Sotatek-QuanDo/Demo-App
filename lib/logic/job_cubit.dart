@@ -10,10 +10,14 @@ class JobCubit extends Cubit<JobState> {
   }
 
   Future<void> getJobDetail() async {
+    print('===== GET_JOB_DETAIL Running');
     try {
       final listJobDetail = await JobDetailData().getJobDetail();
+      print('======== JOB_CUBIT Waiting');
       emit(JobLoaded(listJobDetail));
+      print('======== JOB_CUBIT Loaded');
     } catch (e) {
+      print(e);
       rethrow;
     }
   }

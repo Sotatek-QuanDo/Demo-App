@@ -12,6 +12,7 @@ class Tab1 extends StatelessWidget {
     return BlocBuilder<JobCubit, JobState>(
       builder: (context, state) {
         if (state is JobLoading) {
+          print('======= Job is loading');
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

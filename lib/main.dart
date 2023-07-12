@@ -1,21 +1,27 @@
 import 'package:demo_application/UI/screen/home_screen.dart';
 import 'package:demo_application/UI/screen/login_screen.dart';
+import 'package:demo_application/logic/authenticate_cubit.dart';
 import 'package:demo_application/logic/login_cubit.dart';
 import 'package:demo_application/route/route_management.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LoginCubit>(
-      create: (context) => LoginCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<LoginCubit>(
+          create: (context) => LoginCubit(),
+        ),
+        BlocProvider<AuthenticateCubit>(
+          create: (context) => AuthenticateCubit(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -44,13 +50,41 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
-        home: BlocBuilder<LoginCubit, LoginState>(builder: (context, state) {
-          if (state is LoginVerified) {
-            return const HomeScreen();
-          } else {
-            return const LoginScreen(title: 'セキュリティーコード');
-          }
-        }),
+        home: MultiBlocListener(
+          listeners: [
+            BlocListener<LoginCubit, LoginState>(
+              listener: (context, state) {
+                if (state is LoggedCheck) {
+                  context.read<AuthenticateCubit>().checkAlreadyLogIn();
+                }
+              },
+            ),
+            BlocListener<AuthenticateCubit, AuthenticateState>(
+                listener: (context, state) {
+              if (state is Authenticated) {
+                context.read<LoginCubit>().authenticateComplete();
+              }
+            })
+          ],
+          child: BlocBuilder<LoginCubit, LoginState>(
+            builder: (context, state) {
+              if (state is LoggedCheck) {
+                return Center(
+                    child: Column(
+                  children: const [
+                    Text('Please wait a minute'),
+                    CircularProgressIndicator(),
+                  ],
+                ));
+              } else if (state is LoggedIn) {
+                return const HomeScreen();
+              } else if (state is LoggedOut) {
+                return const LoginScreen(title: 'セキュリティーコード');
+              }
+              return Container();
+            },
+          ),
+        ),
       ),
     );
   }

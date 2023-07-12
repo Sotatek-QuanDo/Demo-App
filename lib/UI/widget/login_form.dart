@@ -1,4 +1,5 @@
 import 'package:demo_application/data/models/user_account.dart';
+import 'package:demo_application/logic/authenticate_cubit.dart';
 import 'package:demo_application/logic/login_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,12 +18,28 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: BlocListener<LoginCubit, LoginState>(
-        listener: (context, state) {
-          if (state is LoginVerified) {
-            Navigator.of(context).pushReplacementNamed('/home');
-          }
-        },
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<LoginCubit, LoginState>(
+            listener: (context, state) {
+              if (state is Logging) {
+                context
+                    .read<AuthenticateCubit>()
+                    .authenticating(state.username, state.password);
+              }
+              if (state is LoggedIn) {
+                Navigator.of(context).pushReplacementNamed('/home');
+              }
+            },
+          ),
+          BlocListener<AuthenticateCubit, AuthenticateState>(
+            listener: (context, state) {
+              if (state is Authenticated) {
+                context.read<LoginCubit>().authenticateComplete();
+              }
+            },
+          ),
+        ],
         child: Column(
           children: [
             TextFormField(
@@ -65,7 +82,7 @@ class _LoginFormState extends State<LoginForm> {
 
                   context
                       .read<LoginCubit>()
-                      .verifyLogin(_user.userName, _user.userPassword);
+                      .loggingIn(_user.userName, _user.userPassword);
                 }
               },
               child: const Text('Login'),
