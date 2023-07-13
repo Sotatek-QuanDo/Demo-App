@@ -36,7 +36,7 @@ class JobCard extends StatelessWidget {
           Stack(
             children: [
               AspectRatio(
-                aspectRatio: 5 / 4,
+                aspectRatio: 165 / 110,
                 child: ClipRRect(
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(8),

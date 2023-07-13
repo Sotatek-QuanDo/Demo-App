@@ -1,5 +1,4 @@
 import 'package:demo_application/data/models/user_account.dart';
-import 'package:demo_application/logic/authenticate_cubit.dart';
 import 'package:demo_application/logic/login_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

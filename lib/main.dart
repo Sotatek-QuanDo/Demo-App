@@ -1,5 +1,4 @@
-import 'package:demo_application/UI/screen/home_screen.dart';
-import 'package:demo_application/UI/screen/login_screen.dart';
+import 'package:demo_application/UI/screen/splash_screen.dart';
 import 'package:demo_application/logic/authenticate_cubit.dart';
 import 'package:demo_application/logic/login_cubit.dart';
 import 'package:demo_application/route/route_management.dart';
@@ -7,10 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -51,23 +52,7 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
-        home: BlocBuilder<AuthenticateCubit, AuthenticateState>(
-            builder: (context, state) {
-          if (state is Authenticated) {
-            return const HomeScreen();
-          } else if (state is AuthenticaingFailed) {
-            return const LoginScreen(title: 'セキュリティーコード');
-          }
-          return Scaffold(
-            body: Center(
-                child: Column(
-              children: const [
-                Text('Authenticating'),
-                CircularProgressIndicator(),
-              ],
-            )),
-          );
-        }),
+        home: const SplashScreen(),
       ),
     );
   }

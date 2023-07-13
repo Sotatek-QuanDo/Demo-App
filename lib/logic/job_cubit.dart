@@ -14,7 +14,6 @@ class JobCubit extends Cubit<JobState> {
       final listJobDetail = await JobDetailData().getJobDetail();
       emit(JobLoaded(listJobDetail));
     } catch (e) {
-      print(e);
       rethrow;
     }
   }
