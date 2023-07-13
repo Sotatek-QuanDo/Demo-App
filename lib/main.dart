@@ -1,4 +1,5 @@
-import 'package:demo_application/UI/screen/splash_screen.dart';
+import 'package:demo_application/UI/screen/home_screen.dart';
+import 'package:demo_application/UI/screen/login_screen.dart';
 import 'package:demo_application/logic/authenticate_cubit.dart';
 import 'package:demo_application/logic/login_cubit.dart';
 import 'package:demo_application/route/route_management.dart';
@@ -52,7 +53,15 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
-        home: const SplashScreen(),
+        home: BlocBuilder<AuthenticateCubit, AuthenticateState>(
+            builder: (context, state) {
+          if (state is Authenticated) {
+            return const HomeScreen();
+          } else if (state is Unauthenticated) {
+            return const LoginScreen(title: 'Login');
+          }
+          return Container();
+        }),
       ),
     );
   }

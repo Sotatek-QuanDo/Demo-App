@@ -22,7 +22,8 @@ class AuthenticateCubit extends Cubit<AuthenticateState> {
     return loginStreamSubcription = loginCubit.stream.listen((loginState) {
       if (loginState is LoggedIn) {
         print('======= DA LOGGED IN');
-        emit(Authenticated(accessToken: loginState.accessToken));
+
+        emit(Authenticated(accessToken: '123456'));
         print('======= DA emit');
       } else if (loginState is LoggedOut) {
         emit(Unauthenticated());
@@ -33,7 +34,7 @@ class AuthenticateCubit extends Cubit<AuthenticateState> {
   void checkLogin() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     if (pref.getString('userToken') == '123456') {
-      emit(Authenticated(accessToken: pref.getString('userToken')!));
+      emit(Authenticated(accessToken: '123456'));
     } else {
       emit(Unauthenticated());
     }

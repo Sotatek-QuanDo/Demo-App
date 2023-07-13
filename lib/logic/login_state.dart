@@ -5,7 +5,7 @@ abstract class LoginState {}
 class LoginInitial extends LoginState {}
 
 class LoggedIn extends LoginState {
-  String accessToken = '';
+  String accessToken;
   LoggedIn({required this.accessToken});
 }
 
