@@ -1,41 +1,40 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
+import 'package:demo_application/logic/login_cubit.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'authenticate_state.dart';
 
 class AuthenticateCubit extends Cubit<AuthenticateState> {
-  AuthenticateCubit() : super(AuthenticateInitial());
-  late SharedPreferences pref;
+  late StreamSubscription loginStreamSubcription;
+  LoginCubit loginCubit;
 
-  void authenticating(String username, String password) async {
-    pref = await SharedPreferences.getInstance();
-    if (username == 'quan2710' && password == '2710') {
-      String accessToken = '123456'; // This is the response of the server
-      pref.setBool('logged', true);
-      print('========SET Logged is true');
-      pref.setStringList('user', [username, password, accessToken]);
-      emit(Authenticated());
-    } else {
-      emit(AuthenticaingFailed());
-    }
+  AuthenticateCubit({required this.loginCubit}) : super(AuthenticateInitial()) {
+    authenticate();
   }
 
-  void checkAlreadyLogIn() async {
-    print('==========THIS DOES RUN');
-    pref = await SharedPreferences.getInstance();
-    List<String> user = pref.getStringList('user') ?? [];
-    if (user[0] == 'quan2710' && user[1] == '2710' && user[2] == '123456') {
-      emit(Authenticated());
-    } else {
-      emit(AuthenticaingFailed());
-    }
+  StreamSubscription<LoginState> authenticate() {
+    return loginStreamSubcription = loginCubit.stream.listen((loginState) {
+      if (loginState is LoggedIn) {
+        if (loginState.accessToken != '123456') {
+          firstAuthentication(loginState.username, loginState.password);
+        } else {
+          emit(Authenticated(accessToken: loginState.accessToken));
+        }
+      } else if (loginState is LoginFailed || loginState is LoggedOut) {
+        emit(AuthenticaingFailed());
+      }
+    });
   }
 
-  void logout() async {
-    pref = await SharedPreferences.getInstance();
-    await pref.remove('accessToken');
-    await pref.setBool('logged', false);
-    print('======LOG OUT IN AUTHENTICATE CUBIT');
+  void firstAuthentication(String username, String password) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String accessToken = '123456';
+    pref.setString('username', username); // This is the response of the server
+    pref.setString('userToken', accessToken);
+    pref.setString('password', password);
+    emit(Authenticated(accessToken: accessToken));
   }
 }

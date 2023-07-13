@@ -7,16 +7,22 @@ class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial()) {
     loggedCheck();
   }
+  late SharedPreferences pref;
 
-  void loggingIn(String username, String password) {
-    emit(Logging(username: username, password: password));
+  void checkLogin(String username, String password) async {
+    if (username == 'quan2710' && password == '2710') {
+      pref = await SharedPreferences.getInstance();
+      pref.setBool('logged', true);
+      emit(LoggedIn(username: username, password: password));
+    } else {
+      emit(LoginFailed());
+    }
   }
 
   void loggedCheck() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    bool isLogged = pref.getBool('logged') ?? false;
-    if (isLogged) {
-      emit(LoggedCheck());
+    if (pref.getString('password') == '2710') {
+      emit(LoggedIn(username: pref.getString('username')!, password: '2710'));
     } else {
       emit(LoggedOut());
     }
@@ -24,9 +30,8 @@ class LoginCubit extends Cubit<LoginState> {
 
   void logOut() async {
     emit(LoggedOut());
-  }
-
-  void authenticateComplete() {
-    emit(LoggedIn());
+    pref.setBool('logged', false);
+    pref.remove(pref.getString('username')!);
+    pref.remove(pref.getString('password')!);
   }
 }

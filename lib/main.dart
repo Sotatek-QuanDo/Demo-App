@@ -19,7 +19,8 @@ class MyApp extends StatelessWidget {
           create: (context) => LoginCubit(),
         ),
         BlocProvider<AuthenticateCubit>(
-          create: (context) => AuthenticateCubit(),
+          create: (context) =>
+              AuthenticateCubit(loginCubit: context.read<LoginCubit>()),
         ),
       ],
       child: MaterialApp(
@@ -50,41 +51,23 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
-        home: MultiBlocListener(
-          listeners: [
-            BlocListener<LoginCubit, LoginState>(
-              listener: (context, state) {
-                if (state is LoggedCheck) {
-                  context.read<AuthenticateCubit>().checkAlreadyLogIn();
-                }
-              },
-            ),
-            BlocListener<AuthenticateCubit, AuthenticateState>(
-                listener: (context, state) {
-              if (state is Authenticated) {
-                context.read<LoginCubit>().authenticateComplete();
-              }
-            })
-          ],
-          child: BlocBuilder<LoginCubit, LoginState>(
+        home: BlocBuilder<AuthenticateCubit, AuthenticateState>(
             builder: (context, state) {
-              if (state is LoggedCheck) {
-                return Center(
-                    child: Column(
-                  children: const [
-                    Text('Please wait a minute'),
-                    CircularProgressIndicator(),
-                  ],
-                ));
-              } else if (state is LoggedIn) {
-                return const HomeScreen();
-              } else if (state is LoggedOut) {
-                return const LoginScreen(title: 'セキュリティーコード');
-              }
-              return Container();
-            },
-          ),
-        ),
+          if (state is Authenticated) {
+            return const HomeScreen();
+          } else if (state is AuthenticaingFailed) {
+            return const LoginScreen(title: 'セキュリティーコード');
+          }
+          return Scaffold(
+            body: Center(
+                child: Column(
+              children: const [
+                Text('Authenticating'),
+                CircularProgressIndicator(),
+              ],
+            )),
+          );
+        }),
       ),
     );
   }

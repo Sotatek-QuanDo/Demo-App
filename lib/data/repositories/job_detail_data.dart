@@ -4,7 +4,6 @@ import 'package:demo_application/data/repositories/overall_data.dart';
 class JobDetailData {
   Future<List<JobDetail>> getJobDetail() async {
     try {
-      print('======== JOB_DETAIL_DATA is running');
       final overallData = await OverallData().getOverallData();
 
       List<dynamic> tmp = overallData['data']['data'] as List<dynamic>;

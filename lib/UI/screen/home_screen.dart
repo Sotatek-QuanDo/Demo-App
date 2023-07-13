@@ -1,6 +1,5 @@
 import 'package:demo_application/UI/widget/bottom_navigator_bar.dart';
 import 'package:demo_application/UI/widget/top_navigator_bar.dart';
-import 'package:demo_application/logic/authenticate_cubit.dart';
 import 'package:demo_application/logic/job_cubit.dart';
 import 'package:demo_application/logic/login_cubit.dart';
 import 'package:flutter/material.dart';
@@ -25,16 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
           style: Theme.of(context).textTheme.titleLarge,
         ),
         actions: [
-          BlocListener<LoginCubit, LoginState>(
-            listener: (context, state) {
-              if (state is LoggedOut) {
-                context.read<AuthenticateCubit>().logout();
-                Navigator.of(context).pushReplacementNamed('/login');
-              }
-            },
-            child: IconButton(
-                onPressed: () => context.read<LoginCubit>().logOut(),
-                icon: const Icon(Icons.logout)),
+          IconButton(
+            onPressed: () => context.read<LoginCubit>().logOut(),
+            icon: const Icon(Icons.logout),
           ),
         ],
       ),

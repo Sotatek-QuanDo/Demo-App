@@ -6,7 +6,6 @@ class OverallData {
 
   Future<Map<String, dynamic>> getOverallData() async {
     try {
-      print('========= OVERALL_DATA is running');
       final Response overallDataRaw = await _dataProvider.getRawData();
       final Map<String, dynamic> overallData = overallDataRaw.data;
 

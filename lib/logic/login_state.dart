@@ -4,16 +4,13 @@ abstract class LoginState {}
 
 class LoginInitial extends LoginState {}
 
-class Logging extends LoginState {
+class LoggedIn extends LoginState {
   String username;
   String password;
-  Logging({required this.username, required this.password});
+  String accessToken = '';
+  LoggedIn({required this.username, required this.password});
 }
-
-class LoggedIn extends LoginState {}
 
 class LoginFailed extends LoginState {}
 
 class LoggedOut extends LoginState {}
-
-class LoggedCheck extends LoginState {}

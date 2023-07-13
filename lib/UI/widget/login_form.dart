@@ -17,29 +17,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
-      child: MultiBlocListener(
-        listeners: [
-          BlocListener<LoginCubit, LoginState>(
-            listener: (context, state) {
-              if (state is Logging) {
-                context
-                    .read<AuthenticateCubit>()
-                    .authenticating(state.username, state.password);
-              }
-              if (state is LoggedIn) {
-                Navigator.of(context).pushReplacementNamed('/home');
-              }
-            },
-          ),
-          BlocListener<AuthenticateCubit, AuthenticateState>(
-            listener: (context, state) {
-              if (state is Authenticated) {
-                context.read<LoginCubit>().authenticateComplete();
-              }
-            },
-          ),
-        ],
+        key: _formKey,
         child: Column(
           children: [
             TextFormField(
@@ -82,14 +60,12 @@ class _LoginFormState extends State<LoginForm> {
 
                   context
                       .read<LoginCubit>()
-                      .loggingIn(_user.userName, _user.userPassword);
+                      .checkLogin(_user.userName, _user.userPassword);
                 }
               },
               child: const Text('Login'),
             ),
           ],
-        ),
-      ),
-    );
+        ));
   }
 }

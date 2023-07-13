@@ -7,6 +7,9 @@ class AuthenticateInitial extends AuthenticateState {}
 
 class Authenticating extends AuthenticateState {}
 
-class Authenticated extends AuthenticateState {}
+class Authenticated extends AuthenticateState {
+  String accessToken;
+  Authenticated({required this.accessToken});
+}
 
 class AuthenticaingFailed extends AuthenticateState {}
