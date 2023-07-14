@@ -29,7 +29,7 @@ class JobDetail {
   final String? commuteRoute;
   final int? totalUser;
   final int? crawlingJobId;
-  final double? crawlingSalary;
+  final String? crawlingSalary;
   final String? crawlingPaymentMethod;
   final String? crawlingJobType;
   final String? crawlingShiftWorkingTime;
@@ -123,7 +123,7 @@ class JobDetail {
       commuteRoute: json['commute_route'],
       totalUser: json['total_user'],
       crawlingJobId: json['crawling_job_id'],
-      crawlingSalary: json['crawling_salary']?.toDouble(),
+      crawlingSalary: json['crawling_salary'],
       crawlingPaymentMethod: json['crawling_payment_method'],
       crawlingJobType: json['crawling_job_type'],
       crawlingShiftWorkingTime: json['crawling_shift_working_time'],

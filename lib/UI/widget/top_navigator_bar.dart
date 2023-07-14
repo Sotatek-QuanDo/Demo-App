@@ -36,7 +36,7 @@ class _TopNavigatorState extends State<TopNavigator> {
           ),
           Expanded(
             child: BlocProvider<JobCubit>(
-              create: (context) => JobCubit(),
+              create: (context) => JobCubit(1),
               child: const TabBarView(
                 children: [
                   Tab1(),

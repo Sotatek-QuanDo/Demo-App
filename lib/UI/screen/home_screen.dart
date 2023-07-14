@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: BlocProvider<JobCubit>(
-        create: (context) => JobCubit(),
+        create: (context) => JobCubit(1),
         child: const Padding(
           padding: EdgeInsets.symmetric(
             vertical: 10.0,

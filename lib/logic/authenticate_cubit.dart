@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:demo_application/logic/login_cubit.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,10 +20,7 @@ class AuthenticateCubit extends Cubit<AuthenticateState> {
   StreamSubscription<LoginState> authenticate() {
     return loginStreamSubcription = loginCubit.stream.listen((loginState) {
       if (loginState is LoggedIn) {
-        print('======= DA LOGGED IN');
-
         emit(Authenticated(accessToken: '123456'));
-        print('======= DA emit');
       } else if (loginState is LoggedOut) {
         emit(Unauthenticated());
       }

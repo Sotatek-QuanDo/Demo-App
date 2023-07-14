@@ -4,9 +4,9 @@ import 'package:dio/dio.dart';
 class OverallData {
   final DataProvider _dataProvider = DataProvider();
 
-  Future<Map<String, dynamic>> getOverallData() async {
+  Future<Map<String, dynamic>> getOverallData(int page) async {
     try {
-      final Response overallDataRaw = await _dataProvider.getRawData();
+      final Response overallDataRaw = await _dataProvider.getRawData(page);
       final Map<String, dynamic> overallData = overallDataRaw.data;
 
       return overallData;

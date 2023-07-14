@@ -2,9 +2,9 @@ import 'package:demo_application/data/models/job_detail.dart';
 import 'package:demo_application/data/repositories/overall_data.dart';
 
 class JobDetailData {
-  Future<List<JobDetail>> getJobDetail() async {
+  Future<List<JobDetail>> getJobDetail(int page) async {
     try {
-      final overallData = await OverallData().getOverallData();
+      final overallData = await OverallData().getOverallData(page);
 
       List<dynamic> tmp = overallData['data']['data'] as List<dynamic>;
 
