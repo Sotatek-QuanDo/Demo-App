@@ -6,6 +6,7 @@ import 'package:demo_application/UI/screen/tab1.dart';
 import 'package:demo_application/UI/screen/tab2.dart';
 import 'package:demo_application/UI/screen/tab3.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class TopNavigator extends StatefulWidget {
   const TopNavigator({super.key});
@@ -35,8 +36,8 @@ class _TopNavigatorState extends State<TopNavigator> {
             indicatorColor: Colors.blue,
           ),
           Expanded(
-            child: BlocProvider<JobCubit>(
-              create: (context) => JobCubit(1),
+            child: BlocProvider.value(
+              value: GetIt.instance.get<JobCubit>(),
               child: const TabBarView(
                 children: [
                   Tab1(),

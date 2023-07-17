@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class JobCard extends StatelessWidget {
-  JobCard({
+  const JobCard({
     super.key,
     required this.name,
     required this.thumbnail,
@@ -13,15 +13,15 @@ class JobCard extends StatelessWidget {
     required this.hourlySalary,
     required this.companyID,
   });
-  String name;
-  String thumbnail;
-  String startWorkingDate;
-  String startWorkingTime;
-  String endWorkingTime;
-  String city;
-  String totalBreakingMinute;
-  String hourlySalary;
-  String companyID;
+  final String name;
+  final String thumbnail;
+  final String startWorkingDate;
+  final String startWorkingTime;
+  final String endWorkingTime;
+  final String city;
+  final String totalBreakingMinute;
+  final String hourlySalary;
+  final String companyID;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -44,31 +44,32 @@ class JobCard extends StatelessWidget {
                   ),
                   child: Image.network(
                     thumbnail,
-                    fit: BoxFit.fitWidth,
+                    fit: BoxFit.cover,
                     height: 110,
                   ),
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.all(8.0),
-                height: 25,
-                width: 50,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(6)),
-                  color: Color(0xFF00C898),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.history,
-                      size: 16,
-                    ),
-                    Text(
-                      '$companyID日',
-                      style: const TextStyle(fontSize: 14),
-                    ),
-                  ],
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 8, top: 8, bottom: 8, right: 100),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(6)),
+                    color: Color(0xFF00C898),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.history,
+                        size: 16,
+                      ),
+                      Text(
+                        '$companyID日',
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

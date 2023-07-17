@@ -1,12 +1,16 @@
 import 'package:demo_application/UI/screen/home_screen.dart';
 import 'package:demo_application/UI/screen/login_screen.dart';
 import 'package:demo_application/logic/authenticate_cubit.dart';
+import 'package:demo_application/logic/initialize_dependencies.dart';
 import 'package:demo_application/logic/login_cubit.dart';
 import 'package:demo_application/route/route_management.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDependencies();
   runApp(const MyApp());
 }
 
@@ -17,13 +21,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<LoginCubit>(
-          create: (context) => LoginCubit(),
-        ),
-        BlocProvider<AuthenticateCubit>(
-          create: (context) =>
-              AuthenticateCubit(loginCubit: context.read<LoginCubit>()),
-        ),
+        BlocProvider.value(value: GetIt.instance.get<LoginCubit>()),
+        BlocProvider.value(value: GetIt.instance.get<AuthenticateCubit>()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

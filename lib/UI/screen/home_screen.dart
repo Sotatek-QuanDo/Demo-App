@@ -4,6 +4,7 @@ import 'package:demo_application/logic/job_cubit.dart';
 import 'package:demo_application/logic/login_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,8 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: BlocProvider<JobCubit>(
-        create: (context) => JobCubit(1),
+      body: BlocProvider.value(
+        value: GetIt.instance.get<JobCubit>(),
         child: const Padding(
           padding: EdgeInsets.symmetric(
             vertical: 10.0,
